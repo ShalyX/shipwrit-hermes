@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10161b">
+<meta name="description" content="Shipwrit: Hermes release-proof plugin. A green deploy isn't proof of a working user journey.">
+<title>Shipwrit — Shipped isn't proven.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111b21;--paper:#f3f1eb;--accent:#e0ad60;--muted:#7d8587;--line:#d8d7d0;--red:#ce5d50;--green:#168f73}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Space Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+.shell{max-width:1440px;margin:auto;padding:0 5.6vw}
+nav{height:100px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:15px;font-size:24px;font-weight:700;letter-spacing:-.06em}
+.mark{height:36px;width:31px;display:grid;align-content:center;gap:4px;background:var(--ink);border-radius:3px 9px 3px 3px;padding:9px 7px;transform:rotate(-5deg)}
+.mark span{display:block;height:2px;background:var(--paper);width:100%}.mark span:last-child{width:60%;background:var(--accent)}
+.nav-right{display:flex;gap:34px;align-items:center;font-size:13px}
+.nav-mini{color:#686f70;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.06em}
+.nav-link{border:1px solid #bfc2bd;border-radius:4px;padding:11px 16px;font-weight:600}
+main{display:grid;grid-template-columns:minmax(0,1fr) minmax(400px,.85fr);min-height:670px;gap:6vw;padding:87px 0 95px}
+.eyebrow{display:inline-flex;align-items:center;gap:11px;font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase}
+.eyebrow:before{content:'';display:block;width:26px;height:3px;background:var(--accent)}
+h1{font-size:clamp(53px,5.55vw,87px);line-height:1.025;letter-spacing:-.085em;font-weight:600;margin:34px 0 29px;max-width:850px}
+h1 em{font-style:normal;color:var(--red)}
+.lead{color:#596369;font-size:19px;line-height:1.55;max-width:500px;letter-spacing:-.02em}
+.actions{display:flex;flex-wrap:wrap;gap:13px;margin-top:41px}
+.action{border:1px solid var(--ink);padding:17px 22px;border-radius:3px;font-size:14px;font-weight:700;transition:transform .15s,background .15s}
+.action:hover{transform:translateY(-2px)}
+.action:disabled{opacity:.6;cursor:wait}
+.action.primary{background:var(--ink);color:white}
+.action.secondary{background:transparent;color:var(--ink)}
+.footnote{margin-top:25px;max-width:520px;display:flex;gap:9px;align-items:flex-start;color:#6d777a;font:11px/1.7 'DM Mono',monospace}
+.footnote i{display:block;width:6px;height:6px;border-radius:50%;margin-top:7px;background:var(--accent);flex:none}
+.card{align-self:start;background:#121d23;color:#e9f0ed;position:relative;box-shadow:17px 17px 0 #e1dfd6;border-radius:5px;padding:27px 27px 25px;min-width:0}
+.card:before{content:'';height:8px;position:absolute;top:0;left:0;right:0;background:repeating-linear-gradient(90deg,#252f34 0 12px,#121d23 12px 24px);border-radius:5px 5px 0 0}
+.card-heading{display:flex;justify-content:space-between;gap:20px;align-items:center;padding-bottom:29px;border-bottom:1px dashed #455056}
+.card-kicker{font:10px/1.6 'DM Mono',monospace;color:#9ca8a6;letter-spacing:.09em;text-transform:uppercase}
+.card-name{font-size:23px;font-weight:600;letter-spacing:-.055em;margin-top:6px}
+.pill{font:10px 'DM Mono',monospace;border-radius:3px;border:1px solid #596768;padding:9px 11px;color:#b9c3bc;white-space:nowrap}
+.pill.pass{background:#113d33;border-color:#307c65;color:#7cdeb8}.pill.block{background:#552925;border-color:#9a4c43;color:#ffb4a6}
+.pill.running{background:#4e3e22;color:#f5cc78;border-color:#987b3b}
+.section-title{font:10px 'DM Mono',monospace;letter-spacing:.13em;color:#9aaba9;text-transform:uppercase;margin:29px 0 14px}
+.step{display:grid;grid-template-columns:27px 1fr auto;align-items:center;gap:12px;padding:16px 0;border-bottom:1px solid #354147;opacity:.72}
+.step.active{opacity:1}
+.num{font:10px 'DM Mono',monospace;color:#a4b1ae}
+.step-title{font-size:13px;font-weight:600}
+.step-path{font:11px 'DM Mono',monospace;color:#94a3a0;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.step-state{font:10px 'DM Mono',monospace;letter-spacing:.03em;color:#8b9c97}
+.step-state.pass{color:#6ed6af}.step-state.fail{color:#f3978e}
+.receipt-bottom{margin-top:30px;padding-top:17px;border-top:1px dashed #465356}
+.hash-label{font:10px 'DM Mono',monospace;color:#a6b7ae;letter-spacing:.09em}
+.hash{font:11px/1.6 'DM Mono',monospace;color:#e2c993;word-break:break-all;margin-top:8px;min-height:32px}
+.verdict-line{display:flex;justify-content:space-between;margin-top:25px;align-items:center}
+.verdict-prefix{font:10px 'DM Mono',monospace;color:#9bada7}
+.verdict{font-size:32px;font-weight:700;letter-spacing:-.08em}
+.verdict.pass{color:#64d4aa}.verdict.block{color:#f28e83}.verdict.running{color:#edbc6c}
+.bottom{border-top:1px solid var(--line);padding:30px 0 45px;display:flex;justify-content:space-between;align-items:center;gap:20px;font-size:12px;color:#687273}
+.bottom b{color:var(--ink)}.bottom a{border-bottom:1px solid #8c9491}
+.legend{font:10px 'DM Mono',monospace;color:#717d7c;letter-spacing:.05em}
+@media(max-width:1020px){main{grid-template-columns:1fr;gap:60px;padding-top:65px}h1{font-size:clamp(58px,9vw,84px);max-width:830px}.card{max-width:740px}.nav-mini{display:none}}
+@media(max-width:580px){.shell{padding:0 6vw}nav{height:73px}.nav-right{gap:10px}.nav-link{padding:8px 11px}.brand{font-size:21px}main{padding:55px 0 60px;gap:45px}h1{font-size:clamp(49px,11vw,64px);margin:25px 0}.lead{font-size:16px}.card{padding:22px 17px;box-shadow:9px 9px 0 #e1dfd6}.card-name{font-size:19px}.actions{flex-direction:column}.action{width:100%}.bottom{flex-direction:column;align-items:flex-start;gap:14px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+<nav>
+  <a class="brand" href="/" aria-label="Shipwrit home"><span class="mark" aria-hidden="true"><span></span><span></span><span></span></span>SHIPWRIT<span style="font-weight:400;color:#9ca19d">.</span></a>
+  <div class="nav-right"><span class="nav-mini">A HERMES AGENT PLUGIN</span><a class="nav-link" href="https://github.com/ShalyX/shipwrit-hermes" target="_blank" rel="noopener">View source ↗</a></div>
+</nav>
+<main>
+  <section>
+    <div class="eyebrow">Release outcomes, witnessed</div>
+    <h1>The deploy went green.<br><em>The user got nothing.</em></h1>
+    <p class="lead">A successful deployment isn't proof that checkout, signup, or anything else actually works. Shipwrit makes Hermes verify the outcome.</p>
+    <div class="actions">
+      <button class="action primary" id="broken" type="button">Run broken release <span aria-hidden="true">↗</span></button>
+      <button class="action secondary" id="fixed" type="button">Run repaired release <span aria-hidden="true">↗</span></button>
+    </div>
+    <div class="footnote"><i aria-hidden="true"></i><span>Live hosted API fixture. This browser preview calls the same demo endpoints as the Hermes plugin, but is not a Hermes agent invocation. The fixed example uses a stateless receipt, not a production database.</span></div>
+  </section>
+  <section aria-label="Live release verification preview">
+    <div class="card">
+      <div class="card-heading">
+        <div><div class="card-kicker">RELEASE / OUTCOME RECEIPT</div><div class="card-name">Checkout persistence</div></div>
+        <div class="pill" id="card-status" aria-live="polite">NOT RUN</div>
+      </div>
+      <div class="section-title">Test contract / 03 steps</div>
+      <div id="steps">
+        <div class="step"><div class="num">01</div><div><div class="step-title">Service health</div><div class="step-path">GET /api/health</div></div><span class="step-state">PENDING</span></div>
+        <div class="step"><div class="num">02</div><div><div class="step-title">Checkout accepted</div><div class="step-path">POST /api/checkout</div></div><span class="step-state">PENDING</span></div>
+        <div class="step"><div class="num">03</div><div><div class="step-title">Order is retrievable</div><div class="step-path">GET /api/orders?order_id={id}</div></div><span class="step-state">PENDING</span></div>
+      </div>
+      <div class="receipt-bottom"><div class="hash-label">BROWSER PREVIEW DIGEST / SHA256</div><div class="hash" id="digest">Awaiting live HTTP evidence</div></div>
+      <div class="verdict-line"><div class="verdict-prefix">VERDICT / OBSERVED</div><div class="verdict" id="verdict">—</div></div>
+    </div>
+  </section>
+</main>
+<footer class="bottom">
+  <span><b>SHIPWRIT</b> / Shipped isn't proven.</span>
+  <span class="legend">HERMES NATIVE TOOL · POST_TOOL_CALL · PRE_VERIFY</span>
+  <span><a href="https://github.com/ShalyX/shipwrit-hermes" target="_blank" rel="noopener">Open source / MIT ↗</a></span>
+</footer>
+</div>
+<script>
+const labels=[["Service health","GET /api/health"],["Checkout accepted","POST /api/checkout"],["Order is retrievable","GET /api/orders?order_id={id}"]];
+const stepsEl=document.getElementById("steps"), statusEl=document.getElementById("card-status"),
+  verdictEl=document.getElementById("verdict"), digestEl=document.getElementById("digest");
+const buttons=[document.getElementById("broken"),document.getElementById("fixed")];
+function render(items){
+  stepsEl.replaceChildren();
+  labels.forEach(([name,path],index)=>{
+    const s=items[index],state=s?(s.ok?"PASS":"FAIL"):"PENDING";
+    const row=document.createElement("div");row.className="step"+(s?" active":"");
+    const num=document.createElement("div");num.className="num";num.textContent=String(index+1).padStart(2,"0");
+    const details=document.createElement("div");const title=document.createElement("div");title.className="step-title";title.textContent=name;
+    const route=document.createElement("div");route.className="step-path";route.textContent=path;
+    details.append(title,route);
+    const marker=document.createElement("span");marker.className="step-state "+(s?(s.ok?"pass":"fail"):"");marker.textContent=s?state+" / "+s.status:state;
+    row.append(num,details,marker);stepsEl.append(row);
+  });
+}
+async function call(url,options){
+  const response=await fetch(url,{cache:"no-store",...options});
+  let body={};try{body=await response.json()}catch{}
+  return {status:response.status,body};
+}
+async function digest(items){
+  if(!crypto.subtle)return "Unavailable in this browser";
+  const bytes=new TextEncoder().encode(JSON.stringify(items));
+  const hash=await crypto.subtle.digest("SHA-256",bytes);
+  return Array.from(new Uint8Array(hash)).map(x=>x.toString(16).padStart(2,"0")).join("");
+}
+async function run(mode){
+  buttons.forEach(b=>b.disabled=true);
+  statusEl.className="pill running";statusEl.textContent="RUNNING";
+  verdictEl.className="verdict running";verdictEl.textContent="CHECKING";
+  digestEl.textContent="Collecting responses…";
+  const observed=[];render(observed);
+  try{
+    const health=await call("/api/health?mode="+mode);
+    observed.push({name:"health",status:health.status,ok:health.status===200&&health.body.status==="ok"});render(observed);
+    const checkout=await call("/api/checkout?mode="+mode,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({sku:"SKU-1",quantity:1})});
+    const id=checkout.body.order_id;
+    observed.push({name:"checkout",status:checkout.status,ok:checkout.status===200&&checkout.body.accepted===true&&!!id});render(observed);
+    if(id){
+      const order=await call("/api/orders?order_id="+encodeURIComponent(id)+"&mode="+mode);
+      observed.push({name:"order_persisted",status:order.status,ok:order.status===200&&order.body.status==="confirmed"&&order.body.sku==="SKU-1"});render(observed);
+    }
+    const passed=observed.length===3&&observed.every(x=>x.ok);
+    statusEl.className="pill "+(passed?"pass":"block");statusEl.textContent=passed?"VERIFIED":"BROKEN";
+    verdictEl.className="verdict "+(passed?"pass":"block");verdictEl.textContent=passed?"PASS":"BLOCK";
+    digestEl.textContent=await digest(observed);
+  }catch(error){
+    statusEl.className="pill block";statusEl.textContent="ERROR";verdictEl.className="verdict block";verdictEl.textContent="BLOCK";
+    digestEl.textContent=String(error&&error.message||"Network request failed");
+  }finally{buttons.forEach(b=>b.disabled=false)}
+}
+document.getElementById("broken").addEventListener("click",()=>run("broken"));
+document.getElementById("fixed").addEventListener("click",()=>run("fixed"));
+</script>
+</body>
+</html>
