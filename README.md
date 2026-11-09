@@ -89,6 +89,19 @@ hermes plugins validate . --install-deps
 
 The second command requires a current Hermes CLI. Older Hermes builds may not expose `plugins validate`; this repository is also tested with the newer catalog validator in an isolated checkout.
 
+## Hosted demonstration
+
+Try the [Shipwrit live fixture](https://shipwrit-demo.vercel.app). It intentionally has two modes: a `200 OK` checkout whose order cannot be retrieved, and a corrected mode whose test order is retrievable. The site is a controlled test fixture and its browser-side preview is **not** a Hermes agent session. The plugin engine's HTTPS integration check is in [tests/staging_check.py](tests/staging_check.py).
+
+## Risk and data-access disclosure
+
+- **Network:** The plugin makes outbound HTTP(S) requests only to hosts explicitly named in the project's `allowed_hosts` contract. It doesn't use a third-party telemetry service. Redirects are disabled. Host allowlisting is a configuration boundary, not a network sandbox.
+- **Filesystem:** It reads `release-witness.json` from the current working project directory and writes its own status to `.release-witness/release-state.json` and redacted receipts to `.release-witness/runs/` in that project. It does not read Hermes credential stores or `.env` files.
+- **Side effects:** `release_witness_check` can send POST, PUT, PATCH and DELETE requests when **explicitly invoked with `allow_writes=true`**. These requests can mutate the application being tested. Use only an authorized staging app with disposable data and a cleanup plan.
+- **Shell / background processes:** The plugin runs no shell commands and spawns no background processes. Its `post_tool_call` hook observes recognized terminal deployment commands to create an unverified-release marker.
+- **Credentials / telemetry:** No credentials are stored or transmitted by Shipwrit itself, and no telemetry is collected or uploaded by the plugin. Do not place secrets in project contract JSON files.
+- **Control limits:** The finish-time `pre_verify` integration is an agent-continuation suggestion, **not an actual block on Vercel or other deployment infrastructure**, and is only invoked when Hermes reaches the relevant coding verification hook.
+
 ## Known limits
 
 - HTTP/JSON contracts only; browser rendering and visual regressions are out of scope for this version.
