@@ -1,0 +1,28 @@
+name: Hosted journey proof
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-staging:
+    name: Real HTTPS release-outcome contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Shipwrit broken-versus-fixed journey against Vercel
+        env:
+          SHIPWRIT_STAGING_URL: https://shipwrit-demo.vercel.app
+        run: python tests/staging_check.py
+      - name: Preserve receipt files
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shipwrit-staging-receipts
+          path: staging-evidence/
+          if-no-files-found: warn
