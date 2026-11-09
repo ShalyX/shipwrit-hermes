@@ -1,0 +1,16 @@
+{
+  "name": "checkout-persistence",
+  "guard_deployments": true,
+  "allowed_hosts": ["127.0.0.1"],
+  "allow_http": true,
+  "timeout_s": 4,
+  "steps": [
+    {"name":"health","method":"GET","path":"/health","expect":{"status":200,"json":{"status":"ok"}}},
+    {"name":"checkout","method":"POST","path":"/checkout",
+      "json":{"sku":"SKU-1","quantity":1},
+      "expect":{"status":200,"json":{"accepted":true,"order_id":"$nonempty"}},
+      "capture":{"order_id":"order_id"}},
+    {"name":"order_persisted","method":"GET","path":"/orders/{order_id}",
+      "expect":{"status":200,"json":{"status":"confirmed","sku":"SKU-1","quantity":1}}}
+  ]
+}
