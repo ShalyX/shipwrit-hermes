@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -37,7 +38,8 @@ class PluginDispatchTests(unittest.TestCase):
             tool_call_id="call-789",
         )
 
-        self.assertEqual(result, receipt)
+        self.assertIsInstance(result, str)
+        self.assertEqual(json.loads(result), receipt)
         run_contract.assert_called_once_with(
             "https://staging.example.com",
             contract_path="staging-contract.json",
@@ -58,7 +60,7 @@ class PluginDispatchTests(unittest.TestCase):
             task_id="hermes-task-123",
         )
 
-        self.assertEqual(result, receipt)
+        self.assertEqual(json.loads(result), receipt)
         run_contract.assert_called_once_with(
             "https://staging.example.com",
             contract_path="release-witness.json",
