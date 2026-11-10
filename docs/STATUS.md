@@ -11,7 +11,7 @@ A Hermes Agent native plugin verifies project-defined user-outcome HTTP journeys
 | Claim | Status | Evidence |
 |---|---|---|
 | Public source repository | VERIFIED | https://github.com/ShalyX/shipwrit-hermes |
-| Plugin version | 0.3.2 | Exact source pin: `12cb58dadb27a3963510ad681bee62aaa5d970c9` |
+| Plugin version | 0.3.2 | Exact source pin: `2f3a38e096feefc9041138852417187b793c0af5` |
 | Fresh GitHub install and enable | VERIFIED | Installed to Caraxes active `forge` profile; CLI discovers plugin. Gateway not restarted. |
 | Hermes plugin discovery and tool registration | VERIFIED | Real Hermes CLI session enabled `release_witness`, discovered `release_witness_check`, described it and invoked it. |
 | Actual LLM-driven Hermes tool execution | VERIFIED | Session `20261110_212305_3bbefc`, model `gpt-6-luna` via `openai-codex`. Two actual tool calls returned usable JSON-text receipts. |
@@ -39,7 +39,7 @@ A Hermes Agent native plugin verifies project-defined user-outcome HTTP journeys
 
 ## Next critical tasks
 1. Catalog validation for 0.3.2 is complete (15/15, zero warnings).
-2. Add `plugin-catalog/shipwrit.yaml` to the ShalyX fork, pinned to `12cb58dadb27a3963510ad681bee62aaa5d970c9`, and open upstream PR.
+2. Add `plugin-catalog/shipwrit.yaml` to the ShalyX fork, pinned to `2f3a38e096feefc9041138852417187b793c0af5`, and open upstream PR.
 3. Confirm upstream PR CI and review the exact diff.
 4. Capture the actual live Hermes CLI session (broken BLOCK → corrected PASS) and receipts in a <90-second screen recording. No fake logs or implied production database.
 5. Inspect the hosted landing page at desktop/mobile sizes; make only judge-impacting fixes.
