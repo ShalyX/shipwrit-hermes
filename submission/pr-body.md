@@ -3,7 +3,7 @@
 > Shipped isn't proven. A deployment can succeed while a checkout silently fails.
 
 **Source:** https://github.com/ShalyX/shipwrit-hermes
-**Pinned source commit:** `12cb58dadb27a3963510ad681bee62aaa5d970c9` (Shipwrit 0.3.2)
+**Pinned source commit:** `2f3a38e096feefc9041138852417187b793c0af5` (Shipwrit 0.3.2)
 **Hosted fixture:** https://shipwrit-demo.vercel.app
 
 ## What it adds
@@ -14,7 +14,7 @@
 A green deploy plus HTTP 200 at checkout but a 404 order lookup becomes **BLOCK**. After repair, the same contract becomes **PASS**. The differentiator is the native Hermes release-completion loop, not a new generic monitoring dashboard. It never patches Hermes core.
 
 ## Validation / observed proof
-- Current Hermes catalog validator: 15/15 checks passed on the initial package; rerun against 0.3.2 is pending.
+- Current Hermes catalog validator: 15/15 checks, zero warnings, run against the installed 0.3.2 package.
 - 21 unit/regression/negative tests passed on the installed 0.3.2 package, including the actual Hermes dispatcher argument context and JSON-text tool result contract.
 - Fresh GitHub install/update and enable succeeded in the Caraxes `forge` profile.
 - **Actual Hermes LLM session** `20261110_212305_3bbefc` discovered, described and invoked `release_witness_check` twice. Broken GET-only fixture: BLOCK (health 200, order 404), receipt `efecd91785ec00ef37e66be69bc17aa249a7379d24e9de8e17f4009e02f56a5b`. Fixed GET-only fixture: PASS (both 200), receipt `9fc13923072a14b64a5482fdb21c553cda59fb1c8968e2273ce84251996ad9c9`. Both calls used `allow_writes=false`.
@@ -23,7 +23,7 @@ A green deploy plus HTTP 200 at checkout but a 404 order lookup becomes **BLOCK*
 
 ## Independent hosted proof
 A GitHub Actions runner executed the actual plugin engine against the public Vercel fixture: broken journey BLOCK and corrected journey PASS, with receipts archived:
-https://github.com/ShalyX/shipwrit-hermes/actions/runs/42565675127
+https://github.com/ShalyX/shipwrit-hermes/actions/runs/42825511858
 
 The hosted app is a controlled seeded fixture. Its fixed mode uses a stateless signed order receipt, **not** a production database.
 
