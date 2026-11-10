@@ -76,6 +76,15 @@ Report the failed step and receipt, then fix and rerun if blocked.
 
 ## Evidence
 
+### Actual Hermes Agent session
+
+Shipwrit was invoked by a real LLM-driven Hermes CLI session on November 10, 2026. The agent discovered the native tool and called it twice against the public controlled fixture:
+
+- Broken contract: health HTTP 200, order lookup HTTP 404, **BLOCK**.
+- Corrected contract: health and order lookup HTTP 200, **PASS**.
+
+Both calls used `allow_writes=false`. The full session note and exact machine-readable receipts are preserved in [evidence/LIVE-HERMES-SESSION-2026-11-10.md](evidence/LIVE-HERMES-SESSION-2026-11-10.md), [broken receipt](evidence/live-agent-broken.json), and [corrected receipt](evidence/live-agent-fixed.json). The corrected fixture uses a stateless signed order receipt, not a production database.
+
 The project-local `.release-witness/runs/` directory contains individual JSON receipts. A receipt records timestamp, target hostname, each step's status, failed assertions, response-body SHA-256, and overall `PASS` or `BLOCK`. The final receipt SHA-256 is calculated from the receipt body before the `sha256` and `evidence_path` fields are added.
 
 `PASS` means the configured checks passed at that time; it **does not certify all functionality**, security, storage integrity, or current availability. Hashes support local integrity checks but are not signed independent attestations.
