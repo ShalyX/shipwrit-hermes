@@ -1,0 +1,29 @@
+{
+  "completed_steps": 2,
+  "contract": "release-witness-broken.json",
+  "evidence_path": "/root/projects/shipwrit-agent-run/.release-witness/runs/2026-11-10T13-23-16.679973+00-00-efecd91785.json",
+  "sha256": "efecd91785ec00ef37e66be69bc17aa249a7379d24e9de8e17f4009e02f56a5b",
+  "steps": [
+    {
+      "body_sha256": "7e172c341b2b384634961409159a8b936117bedef0b4590c1945d8123fa30634",
+      "failed_assertions": [],
+      "http_status": 200,
+      "name": "health",
+      "pass": true
+    },
+    {
+      "body_sha256": "7b1acf34f28a1b7b79a0234d2035fe90fb1670a16572d5a2f49ee665e9df605b",
+      "failed_assertions": [
+        "http_status",
+        "status"
+      ],
+      "http_status": 404,
+      "name": "order_not_retrievable",
+      "pass": false
+    }
+  ],
+  "target_origin": "shipwrit-demo.vercel.app",
+  "timestamp_utc": "2026-11-10T13:23:16.679973+00:00",
+  "total_steps": 2,
+  "verdict": "BLOCK"
+}
