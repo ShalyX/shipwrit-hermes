@@ -38,7 +38,7 @@ A Hermes Agent native plugin verifies project-defined user-outcome HTTP journeys
 - Do not broaden into generic monitoring, browser automation or a dashboard before the P0 submission path is complete.
 
 ## Next critical tasks
-1. Re-run official Hermes catalog validation against 0.3.2.
+1. Catalog validation for 0.3.2 is complete (15/15, zero warnings).
 2. Add `plugin-catalog/shipwrit.yaml` to the ShalyX fork, pinned to `12cb58dadb27a3963510ad681bee62aaa5d970c9`, and open upstream PR.
 3. Confirm upstream PR CI and review the exact diff.
 4. Capture the actual live Hermes CLI session (broken BLOCK → corrected PASS) and receipts in a <90-second screen recording. No fake logs or implied production database.
