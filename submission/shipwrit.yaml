@@ -1,17 +1,18 @@
 name: shipwrit
 repo: https://github.com/ShalyX/shipwrit-hermes
-sha: 4f2391ebe2e59fd4e987b072f2a8c22aa78f34a4
-description: "Release outcome verification for Hermes: block false-green business journeys with evidence-backed receipts."
+sha: 12cb58dadb27a3963510ad681bee62aaa5d970c9
+description: "Outcome-based release verification for Hermes: detect false-green deployments with bounded user journeys and redacted evidence receipts."
 maintainer: ShalyX
 tier: community
 category: automation
 title: Shipwrit
-version: "0.3.0"
+version: "0.3.2"
 readme: true
 platforms: [linux, macos, windows]
+docs_url: https://github.com/ShalyX/shipwrit-hermes#readme
 known_issues:
-  - "HTTP/JSON contracts only; visual/browser journeys are not yet supported."
-  - "The pre_verify integration is an advisory continuation, not an infrastructure deployment block."
+  - "HTTP/JSON contracts only; browser-based and visual journeys are not supported."
+  - "The pre_verify continuation is advisory, only runs in coding turns after file edits, and does not block deployment infrastructure."
 capabilities:
   provides_tools:
     - release_witness_check
