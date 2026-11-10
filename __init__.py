@@ -1,4 +1,6 @@
 """Shipwrit: Hermes-native release outcome verification."""
+import json
+
 from .engine import run_contract
 from .guard import record_release_attempt, pre_verify_gate, mark_receipt
 
@@ -31,7 +33,7 @@ SCHEMA = {
 
 
 def handle_check(args, **_context):
-    """Hermes tool dispatcher passes one argument dictionary plus task context."""
+    """Return JSON text: Hermes plugin dispatch accepts text, not a raw dict."""
     if not isinstance(args, dict):
         raise TypeError("release_witness_check expects an argument object")
 
@@ -52,7 +54,7 @@ def handle_check(args, **_context):
         allow_writes=allow_writes,
     )
     mark_receipt(receipt, base_url)
-    return receipt
+    return json.dumps(receipt, sort_keys=True)
 
 
 def register(ctx):
