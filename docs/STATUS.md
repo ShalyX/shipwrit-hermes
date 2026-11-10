@@ -1,41 +1,48 @@
-# Shipwrit — verified execution checkpoint (2026-11-09)
+# Shipwrit — verified execution checkpoint (2026-11-10)
 
 ## Product lock
-The user explicitly selected Release Witness on 2026-11-09. The externally presented name is **Shipwrit** due to exact-name collision with an earlier “Release Witness” browser QA product. **No product thesis change.**
+The user explicitly selected Release Witness on 2026-11-09. The public brand is **Shipwrit** after an exact-name collision check. This is a name change only; the approved product thesis remains unchanged.
 
 ## Core outcome
-A Hermes Agent native plugin verifies user-outcome HTTP journeys with user-defined JSON contracts. A deploy + HTTP 200 can remain BLOCK if checkout does not yield a retrievable order. The agent receives failed-step evidence; a corrected run produces a content-hashed PASS receipt. Two Hermes hooks observe deploy activity and prompt for verification before unsupported release claims.
+A Hermes Agent native plugin verifies project-defined user-outcome HTTP journeys. A deployment command and HTTP 200 checkout response are insufficient if the returned order cannot be retrieved. Shipwrit returns a failed-step diagnosis and redacted SHA-256 receipt; a corrected run produces PASS.
 
 ## Proof registry
 
 | Claim | Status | Evidence |
-| --- | --- | --- |
-| Clean source / repo | VERIFIED | https://github.com/ShalyX/shipwrit-hermes |
-| Native Hermes plugin registration/discovery | VERIFIED on isolated Caraxes | Internal integration scripts and stdout; not independently published |
-| Native post_tool_call and pre_verify hook behavior | VERIFIED with injected native events | Internal harness evidence; **not** a real LLM conversation |
-| 17 negative/behavioral tests | VERIFIED locally and in GitHub Actions | https://github.com/ShalyX/shipwrit-hermes/actions/runs/42565675025 |
-| 15 catalog validator checks, no warnings | VERIFIED locally with current Hermes checkout | No independent public validation receipt yet |
-| Fresh GitHub plugin install/enable | VERIFIED in isolated Hermes home | CLI stdout retained in previous operator session |
-| Public Vercel fixture deployment | VERIFIED | https://shipwrit-demo.vercel.app |
-| Broken fixture BLOCK and corrected fixture PASS through actual engine over HTTPS | VERIFIED on independent GitHub Actions runner | https://github.com/ShalyX/shipwrit-hermes/actions/runs/42565675127 |
-| Hosted receipts archived | VERIFIED | GitHub Actions artifact `shipwrit-staging-receipts`, run 42565675127 |
-| Live LLM-driven Hermes turn invoking plugin autonomously | UNPROVEN | Must capture real agent session |
-| Final 90-second video with actual plugin working | NOT RECORDED | Must capture screen and inspect |
-| Catalog PR to NousResearch/hermes-agent | NOT OPEN | Prepared `submission/shipwrit.yaml` and PR body |
-| X post and entry form | NOT SUBMITTED | Require live links/receipts |
+|---|---|---|
+| Public source repository | VERIFIED | https://github.com/ShalyX/shipwrit-hermes |
+| Plugin version | 0.3.2 | Exact source pin: `12cb58dadb27a3963510ad681bee62aaa5d970c9` |
+| Fresh GitHub install and enable | VERIFIED | Installed to Caraxes active `forge` profile; CLI discovers plugin. Gateway not restarted. |
+| Hermes plugin discovery and tool registration | VERIFIED | Real Hermes CLI session enabled `release_witness`, discovered `release_witness_check`, described it and invoked it. |
+| Actual LLM-driven Hermes tool execution | VERIFIED | Session `20261110_212305_3bbefc`, model `gpt-6-luna` via `openai-codex`. Two actual tool calls returned usable JSON-text receipts. |
+| Broken fixture outcome | VERIFIED | BLOCK. Health HTTP 200; order retrieval HTTP 404. Receipt SHA256: `efecd91785ec00ef37e66be69bc17aa249a7379d24e9de8e17f4009e02f56a5b`. |
+| Corrected fixture outcome | VERIFIED | PASS. Health and order retrieval both HTTP 200. Receipt SHA256: `9fc13923072a14b64a5482fdb21c553cda59fb1c8968e2273ce84251996ad9c9`. |
+| Live post_tool_call detection | VERIFIED | Session `20261110_212507_c0ffa9`; harmless `vercel deploy --help` probe created `.release-witness/release-state.json` with `pending=true`, `status=UNVERIFIED`. Vercel CLI was not installed, so no deployment occurred. |
+| pre_verify registration and callback behavior | VERIFIED AT PLUGIN-MANAGER LEVEL | Active forge plugin manager reports both hooks registered; calling pre_verify with coding=true, attempt=0 and a pending release returns the expected continuation. |
+| Automatic pre_verify turn-end firing in a live agent turn | NOT YET VERIFIED | The live CLI probe did not emit a continuation; likely no tracked changed-path condition was present. Do not claim full live pre_verify proof. |
+| Unit / regression / security-negative tests | 21/21 PASS on installed 0.3.2 | Caraxes installed plugin test suite. Includes real dispatcher argument context and JSON-text result contract. |
+| Current Hermes catalog validator | 15/15 PASS on earlier 0.3.0 package | Re-run against 0.3.2 before upstream PR final review. |
+| Public Vercel fixture | VERIFIED | https://shipwrit-demo.vercel.app |
+| Independent CI staging test | VERIFIED | https://github.com/ShalyX/shipwrit-hermes/actions/runs/42565675127 — controlled fixture BLOCK then PASS, receipts archived. |
+| Final judge-facing video | NOT RECORDED | Need actual Hermes CLI run + receipt sequence, <90 seconds. |
+| Upstream catalog PR | IN PROGRESS | Fork created: https://github.com/ShalyX/hermes-agent. Add pinned entry and open PR to NousResearch/hermes-agent. |
+| X post / official entry form | NOT SUBMITTED | Submit only after upstream PR link and final demo link are available. |
 
-## Anti-drift / missing P0
-- Keep project contract onboarding, native Hermes hooks, test outcomes and receipts as P0.
-- A controlled serverless fixture is **not** a third-party production database; never claim so.
-- `pre_verify` hook is advisory and runs in coding turns with edits; don't claim infrastructure deployment enforcement.
-- The browser preview is **not** a real Hermes session.
-- Do not let demo UI work replace native Hermes functionality.
+## Explicit limitations / anti-drift
+- The hosted Vercel fixture is a controlled seeded, stateless demonstration, **not** a customer production database.
+- Live Hermes proof used GET-only contracts with `allow_writes=false`; no customer data was changed.
+- The post_tool_call test observed a help-only command, not a real deployment.
+- `pre_verify` is an advisory continuation, only called in coding turns after file edits. It is not a deployment infrastructure block.
+- The global forge profile has Shipwrit enabled, but the already-running messaging gateway has not been restarted. New CLI sessions load the plugin; do not claim gateway activation until restart.
+- The current auxiliary title-generation model returns HTTP 410 (retired NVIDIA model). This did not block agent turns or Shipwrit tool execution; it is unrelated to product proof.
+- Do not broaden into generic monitoring, browser automation or a dashboard before the P0 submission path is complete.
 
-## Next highest-value tasks
-1. Reconnect Desktop Commander to reach Caraxes/Windows sessions; preserve active forge gateway.
-2. Run a complete live Hermes agent session with Shipwrit enabled in an isolated profile and capture the post_tool_call + pre_verify path.
-3. Inspect public UI at 1920x1080 and 390x844; fix visual issues from actual renders.
-4. Use GitHub fork to add `plugin-catalog/shipwrit.yaml` in `NousResearch/hermes-agent`, pin tested plugin commit, open and verify catalog PR/CI.
-5. Record <90s actual working demo, publish on X tagging @NousResearch, submit official form. No entry is submitted until the receipt is observed.
+## Next critical tasks
+1. Re-run official Hermes catalog validation against 0.3.2.
+2. Add `plugin-catalog/shipwrit.yaml` to the ShalyX fork, pinned to `12cb58dadb27a3963510ad681bee62aaa5d970c9`, and open upstream PR.
+3. Confirm upstream PR CI and review the exact diff.
+4. Capture the actual live Hermes CLI session (broken BLOCK → corrected PASS) and receipts in a <90-second screen recording. No fake logs or implied production database.
+5. Inspect the hosted landing page at desktop/mobile sizes; make only judge-impacting fixes.
+6. Publish X post tagging @NousResearch and submit official form. Verify the entry receipt before claiming submission.
 
-**Deadline from Nous Research:** Wednesday, November 11, 2026 at 5 PM EST = 11 PM Lagos time. Source https://nousresearch.net/.
+**Deadline:** Wednesday, November 11, 2026 at 5 PM EST (11 PM Lagos time). Source: https://nousresearch.net/.
